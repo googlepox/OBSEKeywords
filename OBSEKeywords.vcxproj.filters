@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.c" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Keywords.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="INIParser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="exports.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{c5d7c0c1-c3f7-4095-9342-e2caaf694931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{3edd8575-be53-4fbc-8972-7ef11dfe9fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="obse">
+      <UniqueIdentifier>{013b20f0-08f9-4b6a-a310-67d30532e840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{35fc108b-77b0-4b28-8e9f-4b388f187718}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Keywords.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="INIParser.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EditorIDMapper\EditorIDMapperAPI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="KeywordAPI.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="string.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="hash.hpp" />
+  </ItemGroup>
+</Project>
