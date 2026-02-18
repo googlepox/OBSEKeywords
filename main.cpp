@@ -173,14 +173,23 @@ extern "C" {
 
         obse->SetOpcodeBase(0x2760);
         obse->RegisterCommand(&kCommandInfo_AddKeyword);
+        obse->RegisterCommand(&kCommandInfo_AddKeywordRef);
         obse->RegisterCommand(&kCommandInfo_RemoveKeyword);
+        obse->RegisterCommand(&kCommandInfo_RemoveKeywordRef);
         obse->RegisterCommand(&kCommandInfo_HasKeyword);
+        obse->RegisterCommand(&kCommandInfo_HasKeywordRef);
         obse->RegisterCommand(&kCommandInfo_GetKeywordCount);
+        obse->RegisterCommand(&kCommandInfo_GetKeywordCountRef);
         obse->RegisterCommand(&kCommandInfo_ClearKeywords);
+        obse->RegisterCommand(&kCommandInfo_ClearKeywordsRef);
         obse->RegisterCommand(&kCommandInfo_GetNthKeyword);
+        obse->RegisterCommand(&kCommandInfo_GetNthKeywordRef);
         obse->RegisterCommand(&kCommandInfo_HasAnyKeyword);
+        obse->RegisterCommand(&kCommandInfo_HasAnyKeywordRef);
         obse->RegisterCommand(&kCommandInfo_HasAllKeywords);
+        obse->RegisterCommand(&kCommandInfo_HasAllKeywordsRef);
         obse->RegisterCommand(&kCommandInfo_PrintKeywords);
+        obse->RegisterCommand(&kCommandInfo_PrintKeywordsRef);
         obse->RegisterCommand(&kCommandInfo_LoadKeywordsFromINI);
         obse->RegisterCommand(&kCommandInfo_ReloadKeywordINIs);
         _MESSAGE("Commands registered with opcode base 0x2760");

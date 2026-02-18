@@ -43,6 +43,8 @@
     <ClInclude Include="string.hpp">
       <Filter>lib</Filter>
     </ClInclude>
-    <ClInclude Include="hash.hpp" />
+    <ClInclude Include="hash.hpp">
+      <Filter>lib</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

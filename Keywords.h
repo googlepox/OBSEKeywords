@@ -63,14 +63,23 @@ bool Cmd_PrintKeywords_Execute(COMMAND_ARGS);
 
 // Command info structures
 extern CommandInfo kCommandInfo_AddKeyword;
+extern CommandInfo kCommandInfo_AddKeywordRef;
 extern CommandInfo kCommandInfo_RemoveKeyword;
+extern CommandInfo kCommandInfo_RemoveKeywordRef;
 extern CommandInfo kCommandInfo_HasKeyword;
+extern CommandInfo kCommandInfo_HasKeywordRef;
 extern CommandInfo kCommandInfo_GetKeywordCount;
+extern CommandInfo kCommandInfo_GetKeywordCountRef;
 extern CommandInfo kCommandInfo_ClearKeywords;
+extern CommandInfo kCommandInfo_ClearKeywordsRef;
 extern CommandInfo kCommandInfo_GetNthKeyword;
+extern CommandInfo kCommandInfo_GetNthKeywordRef;
 extern CommandInfo kCommandInfo_HasAnyKeyword;
+extern CommandInfo kCommandInfo_HasAnyKeywordRef;
 extern CommandInfo kCommandInfo_HasAllKeywords;
+extern CommandInfo kCommandInfo_HasAllKeywordsRef;
 extern CommandInfo kCommandInfo_PrintKeywords;
+extern CommandInfo kCommandInfo_PrintKeywordsRef;
 
 extern OBSEScriptInterface* g_scriptInterface;
 #define ExtractArgsEx(...) g_scriptInterface->ExtractArgsEx(__VA_ARGS__)
