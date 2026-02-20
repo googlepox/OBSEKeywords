@@ -89,7 +89,6 @@ namespace KeywordAPI
     {
         s_msgIntfc = msgIntfc;
         s_pluginHandle = pluginHandle;
-        msgIntfc->RegisterListener(pluginHandle, nullptr, MessageHandler);
     }
 
     // ---- IsReady ----
