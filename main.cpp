@@ -11,25 +11,9 @@ PluginHandle g_pluginHandle = kPluginHandle_Invalid;
 OBSESerializationInterface* g_serialization = nullptr;
 OBSEMessagingInterface* g_messaging = nullptr;
 
-void OBSEMessageHandler(OBSEMessagingInterface::Message* msg)
-{
-    if (!msg || !msg->data) return;
-    switch (msg->type)
-    {
-    case OBSEMessagingInterface::kMessage_PreLoadGame:
-        _MESSAGE("OBSEKeywords: broadcasting ready signal");
-        g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
-            nullptr, 0, nullptr);
-        break;
-
-    default:
-        break;
-    }
-}
-
 void KeywordMessageHandler(OBSEMessagingInterface::Message* msg)
 {
-    if (!msg || !msg->data) return;
+    if (!msg) return;
 
     EditorIDMapper::MessageHandler(msg);
 
@@ -37,11 +21,6 @@ void KeywordMessageHandler(OBSEMessagingInterface::Message* msg)
 
     switch (msg->type)
     {
-    case OBSEMessagingInterface::kMessage_PreLoadGame:
-        _MESSAGE("OBSEKeywords: broadcasting ready signal");
-        g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
-            nullptr, 0, nullptr);
-        break;
 
     case KeywordAPI::kMessage_AddKeyword:
     {
@@ -129,6 +108,28 @@ void KeywordMessageHandler(OBSEMessagingInterface::Message* msg)
     }
 }
 
+void OBSEMessageHandler(OBSEMessagingInterface::Message* msg)
+{
+    if (!msg) return;
+    switch (msg->type)
+    {
+    case OBSEMessagingInterface::kMessage_PostLoad:
+        g_messaging->RegisterListener(g_pluginHandle, nullptr, KeywordMessageHandler);
+
+        EditorIDMapper::Init(g_messaging, g_pluginHandle);
+        break;
+    case OBSEMessagingInterface::kMessage_GameInitialized:
+        _MESSAGE("OBSEKeywords: broadcasting ready signal");
+
+        g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
+            nullptr, 0, nullptr);
+        break;
+
+    default:
+        break;
+    }
+}
+
 void SaveCallback(void* reserved)
 {
     _MESSAGE("Saving keyword data...");
@@ -156,11 +157,6 @@ void NewGameCallback(void* reserved)
 
     _MESSAGE("Applying INI keywords...");
     INILoader::LoadAll();
-}
-
-void MessageHandler()
-{
-    
 }
 
 extern "C" {
@@ -236,10 +232,7 @@ extern "C" {
 
         g_messaging = (OBSEMessagingInterface*)obse->QueryInterface(kInterface_Messaging);
 
-        EditorIDMapper::Init(g_messaging, g_pluginHandle);
-
         g_messaging->RegisterListener(g_pluginHandle, "OBSE", OBSEMessageHandler);
-        g_messaging->RegisterListener(g_pluginHandle, nullptr, KeywordMessageHandler);
 
         _MESSAGE("OBSEKeywords loaded successfully");
         return true;
