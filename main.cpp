@@ -11,15 +11,33 @@ PluginHandle g_pluginHandle = kPluginHandle_Invalid;
 OBSESerializationInterface* g_serialization = nullptr;
 OBSEMessagingInterface* g_messaging = nullptr;
 
+void OBSEMessageHandler(OBSEMessagingInterface::Message* msg)
+{
+    if (!msg || !msg->data) return;
+    switch (msg->type)
+    {
+    case OBSEMessagingInterface::kMessage_PostPostLoad:
+        _MESSAGE("OBSEKeywords: broadcasting ready signal");
+        g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
+            nullptr, 0, nullptr);
+        break;
+
+    default:
+        break;
+    }
+}
+
 void KeywordMessageHandler(OBSEMessagingInterface::Message* msg)
 {
     if (!msg || !msg->data) return;
+
+    EditorIDMapper::MessageHandler(msg);
 
     KeywordManager* mgr = KeywordManager::GetSingleton();
 
     switch (msg->type)
     {
-    case OBSEMessagingInterface::kMessage_PostPostLoad:
+    case OBSEMessagingInterface::kMessage_PreLoadGame:
         _MESSAGE("OBSEKeywords: broadcasting ready signal");
         g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
             nullptr, 0, nullptr);
@@ -220,7 +238,7 @@ extern "C" {
 
         EditorIDMapper::Init(g_messaging, g_pluginHandle);
 
-        g_messaging->RegisterListener(g_pluginHandle, "OBSE", KeywordMessageHandler);
+        g_messaging->RegisterListener(g_pluginHandle, "OBSE", OBSEMessageHandler);
         g_messaging->RegisterListener(g_pluginHandle, nullptr, KeywordMessageHandler);
 
         _MESSAGE("OBSEKeywords loaded successfully");

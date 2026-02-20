@@ -80,6 +80,7 @@ namespace KeywordAPI
         if (msg && msg->type == kMessage_Ready)
         {
             s_ready = true;
+            _MESSAGE("OBSEKeywords: received ready signal");
         }
     }
 
@@ -95,6 +96,18 @@ namespace KeywordAPI
 
     inline bool IsReady()
     {
+
+        if (!s_msgIntfc)
+        {
+            _MESSAGE("OBSEKeywords: messaging interface missing");
+        }
+
+        if (!s_ready)
+        {
+            _MESSAGE("OBSEKeywords: Lookup before ready");
+            return 0;
+        }
+
         return s_ready && s_msgIntfc != nullptr;
     }
 
@@ -102,8 +115,6 @@ namespace KeywordAPI
 
     inline bool AddKeyword(UInt32 formID, const char* keyword)
     {
-        if (!IsReady() || !keyword) return false;
-
         BasicData data = { formID, keyword, false, 0 };
         s_msgIntfc->Dispatch(s_pluginHandle, kMessage_AddKeyword,
             &data, sizeof(data), nullptr);
