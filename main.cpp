@@ -16,7 +16,7 @@ void OBSEMessageHandler(OBSEMessagingInterface::Message* msg)
     if (!msg || !msg->data) return;
     switch (msg->type)
     {
-    case OBSEMessagingInterface::kMessage_PostPostLoad:
+    case OBSEMessagingInterface::kMessage_PreLoadGame:
         _MESSAGE("OBSEKeywords: broadcasting ready signal");
         g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
             nullptr, 0, nullptr);
