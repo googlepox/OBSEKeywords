@@ -119,6 +119,10 @@ void OBSEMessageHandler(OBSEMessagingInterface::Message* msg)
         EditorIDMapper::Init(g_messaging, g_pluginHandle);
         break;
     case OBSEMessagingInterface::kMessage_GameInitialized:
+
+        _MESSAGE("OBSEKeywords: loading INI files");
+        INILoader::LoadAll();
+
         _MESSAGE("OBSEKeywords: broadcasting ready signal");
 
         g_messaging->Dispatch(g_pluginHandle, KeywordAPI::kMessage_Ready,
@@ -227,7 +231,6 @@ extern "C" {
             return false;
         }
         g_serialization->SetSaveCallback(g_pluginHandle, SaveCallback);
-        g_serialization->SetLoadCallback(g_pluginHandle, LoadCallback);
         g_serialization->SetNewGameCallback(g_pluginHandle, NewGameCallback);
 
         g_messaging = (OBSEMessagingInterface*)obse->QueryInterface(kInterface_Messaging);

@@ -22,16 +22,16 @@ bool KeywordManager::AddKeyword(UInt32 formID, const std::string& keyword)
 {
     if (keyword.empty()) return false;
 
-    // Convert keyword to lowercase for case-insensitive matching
     std::string lowerKeyword = keyword;
     std::transform(lowerKeyword.begin(), lowerKeyword.end(), lowerKeyword.begin(), ::tolower);
 
-    // Add to form -> keywords map
-    formKeywords[formID].insert(lowerKeyword);
+    _MESSAGE("KeywordManager::AddKeyword: formID=%08X keyword='%s' (lower='%s')",
+        formID, keyword.c_str(), lowerKeyword.c_str());
 
-    // Add to keyword -> forms reverse index
+    formKeywords[formID].insert(lowerKeyword);
     keywordForms[lowerKeyword].insert(formID);
 
+    _MESSAGE("KeywordManager::AddKeyword: success, map now has %d forms", formKeywords.size());
     return true;
 }
 
@@ -68,11 +68,24 @@ bool KeywordManager::HasKeyword(UInt32 formID, const std::string& keyword)
     std::string lowerKeyword = keyword;
     std::transform(lowerKeyword.begin(), lowerKeyword.end(), lowerKeyword.begin(), ::tolower);
 
+    _MESSAGE("KeywordManager::HasKeyword: formID=%08X keyword='%s' (lower='%s')",
+        formID, keyword.c_str(), lowerKeyword.c_str());
+
     auto it = formKeywords.find(formID);
     if (it != formKeywords.end())
     {
-        return it->second.find(lowerKeyword) != it->second.end();
+        _MESSAGE("  Found formID in map, has %d keywords:", it->second.size());
+        for (const auto& kw : it->second)
+        {
+            _MESSAGE("    - '%s'", kw.c_str());
+        }
+
+        bool found = it->second.find(lowerKeyword) != it->second.end();
+        _MESSAGE("  Keyword match: %d", (int)found);
+        return found;
     }
+
+    _MESSAGE("  FormID not found in map at all");
     return false;
 }
 
@@ -337,8 +350,18 @@ bool Cmd_HasKeyword_Execute(COMMAND_ARGS)
     if (!form)
         return true;
 
+    _MESSAGE("Script HasKeyword: checking formID %08X for keyword '%s'",
+        form->refID, keyword);
+
     if (KeywordManager::GetSingleton()->HasKeyword(form->refID, keyword))
+    {
+        _MESSAGE("Script HasKeyword: FOUND!");
         *result = 1;
+    }
+    else
+    {
+        _MESSAGE("Script HasKeyword: NOT FOUND");
+    }
 
     return true;
 }
