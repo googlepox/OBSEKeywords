@@ -456,13 +456,13 @@ bool Cmd_GetNthKeyword_Execute(COMMAND_ARGS)
 
     if (!ExtractArgs(PASS_EXTRACT_ARGS, &form, &index))
     {
-        AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+        g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
         return true;
     }
 
     if (!form)
     {
-        AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+        g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
         return true;
     }
 
@@ -472,7 +472,7 @@ bool Cmd_GetNthKeyword_Execute(COMMAND_ARGS)
         resultStr = keywords[index].c_str();
     }
 
-    AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+    g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
     return true;
 }
 
@@ -485,13 +485,13 @@ bool Cmd_GetNthKeywordRef_Execute(COMMAND_ARGS)
 
     if (!ExtractArgs(PASS_EXTRACT_ARGS, &form, &index))
     {
-        AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+        g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
         return true;
     }
 
     if (!form)
     {
-        AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+        g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
         return true;
     }
 
@@ -501,7 +501,7 @@ bool Cmd_GetNthKeywordRef_Execute(COMMAND_ARGS)
         resultStr = keywords[index].c_str();
     }
 
-    AssignToStringVar(PASS_COMMAND_ARGS, resultStr);
+    g_stringVarIntfc->Assign(PASS_COMMAND_ARGS, resultStr);
     return true;
 }
 

@@ -13,6 +13,8 @@
 // Plugin version
 #define PLUGIN_VERSION 1
 
+inline OBSEStringVarInterface* g_stringVarIntfc;
+
 // Keyword system class
 class KeywordManager
 {

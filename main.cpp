@@ -218,6 +218,8 @@ extern "C" {
             return true;
         }
 
+        g_stringVarIntfc = (OBSEStringVarInterface*)obse->QueryInterface(kInterface_StringVar);
+
         g_serialization = (OBSESerializationInterface*)obse->QueryInterface(kInterface_Serialization);
         if (!g_serialization)
         {
