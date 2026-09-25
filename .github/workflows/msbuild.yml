@@ -25,16 +25,6 @@ jobs:
           path: boost_1_92_0
           key: boost-1.92.0
 
-      - name: Download boost
-        if: steps.cache-boost.outputs.cache-hit != 'true'
-        shell: pwsh
-        run: |
-          Invoke-WebRequest `
-            -Uri "https://archives.boost.io/release/1.92.0/source/boost_1_92_0.zip" `
-            -OutFile boost.zip
-          Expand-Archive -Path boost.zip -DestinationPath . -Force
-          Remove-Item boost.zip
-
       - name: Checkout EditorIDMapper
         uses: actions/checkout@v4
         with:
