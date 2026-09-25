@@ -39,7 +39,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: MediumArmor
+          name: OBSEKeywords
           path: |
             OBSEKeywords/Release/OBSEKeywords.dll
             OBSEKeywords/Release/OBSEKeywords.pdb
