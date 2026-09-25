@@ -1,0 +1,69 @@
+name: Build OBSE Plugin
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout xOBSE SDK
+        uses: actions/checkout@v4
+        with:
+          repository: llde/xOBSE
+          ref: master
+
+      - name: Cache boost
+        id: cache-boost
+        uses: actions/cache@v4
+        with:
+          path: boost_1_92_0
+          key: boost-1.92.0
+
+      - name: Download boost
+        if: steps.cache-boost.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest `
+            -Uri "https://archives.boost.io/release/1.92.0/source/boost_1_92_0.zip" `
+            -OutFile boost.zip
+          Expand-Archive -Path boost.zip -DestinationPath . -Force
+          Remove-Item boost.zip
+
+      - name: Checkout EditorIDMapper
+        uses: actions/checkout@v4
+        with:
+          repository: googlepox/EditorIDMapper
+          ref: master
+          path: EditorIDMapper
+
+      - name: Checkout EditorIDMapper
+        uses: actions/checkout@v4
+        with:
+          repository: googlepox/EditorIDMapper
+          ref: master
+          path: EditorIDMapper
+
+      - name: Checkout plugin source
+        uses: actions/checkout@v4
+        with:
+          path: OBSEKeywords
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build
+        run: msbuild OBSEKeywords/OBSEKeywords.sln /p:Configuration=Release /p:Platform=Win32 /m
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MediumArmor
+          path: |
+            OBSEKeywords/Release/OBSEKeywords.dll
+            OBSEKeywords/Release/OBSEKeywords.pdb
